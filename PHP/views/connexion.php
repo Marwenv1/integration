@@ -21,7 +21,12 @@ echo $userexist;
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mail'] = $userinfo['mail'];
+         $_SESSION['confirme'] = $userinfo['confirme'];
+         if ($_SESSION['confirme'] == 1) {
          header("Location:userProfile.php?id=".$_SESSION['id']);
+         }else{
+           $erreur ="votre compte n'est pas encore confirmé";
+         }
       } else {
          $erreur = "Mauvais mail ou mot de passe !";
       }
@@ -1679,9 +1684,15 @@ echo $userexist;
                                                         //]]>
 
                                                     </script>
-                                                
-                                                    <p class="required">* Required Fields</p>
-                                                </div>
+                       <?php                         
+         if(isset($erreur))
+             {
+                echo '<font color="red">'.$erreur."</font>";
+             }       
+
+           ?>  
+
+                                                      </div>
                                             </div>
                                         </div>
                                         <div class="col2-set">

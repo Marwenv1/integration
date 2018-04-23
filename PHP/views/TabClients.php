@@ -4,6 +4,23 @@ include "../core/utilisateurCore.php";
 $utilisateurC=new utilisateurCore();
 $ListesUtilisateurs=$utilisateurC->afficherUsers();
 
+   // Envoi de mail Newsletter
+
+   if (isset($_POST['message'])) {
+     if ($_POST['message']) {
+       
+         $message = $_POST['message'];      
+         $utilisateur1C = new utilisateurCore();
+         $MailingList = $utilisateur1C->RecupNewsletter();
+         foreach ($MailingList as $row) {
+                $utilisateur1C->EnvoyerNewsletter($row['mail'],$message);
+               }      
+
+     } else{
+      $erreur = "veuillez écrire quelques choses !";
+     }
+   }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +31,7 @@ $ListesUtilisateurs=$utilisateurC->afficherUsers();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Chart JS Graph Examples | Gentelella Alela! by Colorlib</title>
+    <title>Espace Admin</title>
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -306,6 +323,18 @@ foreach($ListesUtilisateurs as $row){
 
 </table>
 
+
+<!-- Newsletter send -->
+<form method="POST">   
+  <br> <br>
+                          <label for="message">Envoyez email aux abonnées de Newsletter:</label>
+                          <textarea id="message" required="required" class="form-control" name="message" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Texte de votre Email !"
+                            data-parsley-validation-threshold="10"></textarea>
+
+                          <br/>
+                         <input type="submit" name="Envoyer" class="btn btn-primary">
+</form>
+<!-- Newsletter Send -->
         <!-- footer content -->
         <!-- footer content -->
       </div>
